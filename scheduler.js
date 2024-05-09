@@ -21,6 +21,6 @@ const run = () => {
     .catch(console.error);
 };
 
-setInterval(run, INTERVAL);
+//setInterval(run, INTERVAL);
 
-run();
+//run();

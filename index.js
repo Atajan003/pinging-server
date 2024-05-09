@@ -106,11 +106,11 @@ const fetchData2 = () => {
 //   console.error(e);
 // }
 
-try {
-  console.log("started to fetch data 2...");
-  fetchData2();
-  console.log("completed fetching data 2 successfully");
-} catch (e) {
-  console.log("completed fetching data 2 with error");
-  console.error(e);
-}
+//try {
+//  console.log("started to fetch data 2...");
+//  fetchData2();
+//  console.log("completed fetching data 2 successfully");
+//} catch (e) {
+//  console.log("completed fetching data 2 with error");
+//  console.error(e);
+//}
