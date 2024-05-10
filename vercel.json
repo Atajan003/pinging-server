@@ -2,7 +2,7 @@
   "version": 2,
   "builds": [
     {
-      "src": "index.js", // Entry point of your Node.js application
+      "src": "index.js",
       "use": "@vercel/node"
     }
   ],
