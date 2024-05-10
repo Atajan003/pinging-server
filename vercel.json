@@ -10,7 +10,7 @@
   "routes": [
     {
       "src": "/data/(.*)",
-      "dest": "/data/$1"
+      "dest": "/$1"
     }
   ]
 }
