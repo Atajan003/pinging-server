@@ -8,7 +8,11 @@ console.log("pingin server is running to versel")
 
 const jsonFilesDirectory = path.join(__dirname, 'data');
 
-app.get('/:file', (req, res) => {
+app.get('/', (req, res) => {
+  res.send('Hello World')
+})
+
+app.get('/api/:file', (req, res) => {
     const fileName = req.params['file'];
 
     // Check if file name is provided
