@@ -9,7 +9,7 @@ console.log("pingin server is running to versel")
 const jsonFilesDirectory = path.join(__dirname, 'data');
 
 app.get('/', (req, res) => {
-  res.send('Hello World')
+  res.send('Welcome to our pinging server!')
 })
 
 app.get('/api/:file', (req, res) => {
