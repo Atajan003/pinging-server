@@ -3,13 +3,79 @@ const express = require('express')
 const fs = require('fs');
 const path = require('path');
 const app = express()
-
-console.log("pingin server is running to versel")
+const bodyParser = require('body-parser')
+const sheets = require('./sheets')
+const jwt = require('jsonwebtoken')
 
 const jsonFilesDirectory = path.join(__dirname, 'data');
 
+// parse application/json
+app.use(bodyParser.json())
+
+// parse application/x-www-form-urlencoded
+app.use(bodyParser.urlencoded({ extended: false }))
+
 app.get('/', (req, res) => {
   res.send('Welcome to our pinging server!')
+})
+
+app.post('/api/login', async (req, res) => {
+  try {
+    const { code, device_id } = req.body
+    if (!code || !device_id) {
+      return res.status(400).json({
+        status: false,
+        msg: 'Please enter your code and device identifier'
+      })
+    }
+
+    const googleSheetClient = await sheets.GetGoogleSheetClient()
+
+    const { row, index } = await sheets.GetRowsByCode(googleSheetClient, code)
+
+    if (index === -1) {
+      return res.status(400).json({
+        status: false,
+        msg: 'your code not correct'
+      })
+    }
+
+    if (row[0] != '') {
+      return res.status(403).json({
+        status: false,
+        msg: 'code is alrady used '
+      })
+    }
+
+    let expiresIn = sheets.CalculateExpiresIn(row[2])
+
+    if (expiresIn === 0) {
+      return res.status(401).json({
+        status: false,
+        msg: 'code is expired'
+      })
+    }
+
+    row[0] = device_id
+    const data = await sheets.UpdateRowByCode(googleSheetClient, index, row)
+
+    if (data.status !== 200) {
+      return res.status(500).json({
+        status: false,
+        msg: 'server cant update device'
+      })
+    }
+
+    token = jwt.sign({ device_id: device_id, code: code }, 'normalnybol', { expiresIn: expiresIn })
+    return res.json({
+      status: true,
+      msg: 'You are logged in',
+      token: token
+    })
+  } catch (e) {
+    console.log(e)
+    res.status(500).send(e.message)
+  }
 })
 
 app.get('/api/:file', (req, res) => {
