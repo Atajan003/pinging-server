@@ -101,10 +101,18 @@ function CalculateExpiresIn(futureDateStr) {
   return diffInSeconds
 }
 
+function WriteGoogleCloudKeyFile() {
+  const base64Key = process.env.GOOGLE_CLOUD_KEY
+  const keyFileContent = Buffer.from(base64Key, 'base64').toString('utf-8')
+
+  return JSON.parse(keyFileContent)
+}
+
 module.exports = {
   GetGoogleSheetClient,
   GetRowsByCode,
   UpdateRowByCode,
   LoginCheckToken,
-  CalculateExpiresIn
+  CalculateExpiresIn,
+  WriteGoogleCloudKeyFile
 }
