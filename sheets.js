@@ -1,14 +1,14 @@
 const { google } = require('googleapis')
 const jwt = require('jsonwebtoken')
 
-const serviceAccountKeyFile = './pinging-server-sheets.json'
 const sheetId = '1lvvQa_ZIuVJmkaJZzAYFiR00PlST_iaKjzdCeD_lglY'
 const tabName = 'Sheet1'
 const range = 'A:C'
 
 async function GetGoogleSheetClient() {
+  const data = WriteGoogleCloudKeyFile()
   const auth = new google.auth.GoogleAuth({
-    keyFile: serviceAccountKeyFile,
+    credentials: data,
     scopes: ['https://www.googleapis.com/auth/spreadsheets']
   })
   const authClient = await auth.getClient()
