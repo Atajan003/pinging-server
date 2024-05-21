@@ -15,6 +15,8 @@ app.use(bodyParser.json())
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }))
 
+app.use('/api/data', sheets.LoginCheckToken, express.static(jsonFilesDirectory))
+
 app.get('/', (req, res) => {
   res.send('Welcome to our pinging server!')
 })
