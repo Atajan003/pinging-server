@@ -42,7 +42,7 @@ app.post('/api/login', async (req, res) => {
       })
     }
 
-    if (row[0] != '') {
+    if (row[0] != '' && row[0] != device_id) {
       return res.status(403).json({
         status: false,
         msg: 'code is alrady used '
